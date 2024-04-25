@@ -1,0 +1,115 @@
+
+*{
+    box-sizing: border-box;
+}
+body{
+    margin: 0;
+}
+
+.container{
+    /* background-color: lightskyblue; */
+    width: 100%;
+    height: 100vh;
+}
+
+.nav{
+    background-color: lightslategray;
+    width: 366px;
+    height: 100%;
+    float: left;
+}
+
+.logo{
+    /* background-color: beige; */
+    width: 150px;
+    height: 150px;
+    margin: auto;
+    margin-top: 30px;
+    background-image: url(../img/1-LINE_ALBUM_上課使用_231221_4.jpg);
+    background-repeat: no-repeat;
+    background-size: 130%;
+    background-position: center;
+    margin-bottom: 20px;
+}
+
+.logo:hover{
+    opacity: 0.8;
+    background-color: aliceblue;
+}
+
+.nav-btn-all{
+    /* background-color: black; */
+    /* width: 200px;
+    height: 200px; */
+    margin: auto;
+}
+
+.nav-btn{
+    background-color: rgb(153, 234, 215);
+    width: 200px;
+    height: 50px;
+    margin: auto;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 22px;
+    font-family: 'Courier New', Courier, monospace;
+    line-height: 50px;
+    display: block;
+    text-decoration: none;
+}
+
+.nav-btn:hover{
+    background-color: aliceblue;
+    font-weight: bold;
+    color: gray;
+}
+
+.content-all{
+    /* background-color: aquamarine; */
+    width: calc(100% - 366px);
+    height: 100%;
+    float: left;
+    padding-top: calc((100vh - 570px)/ 2);
+    /* padding不能用%，要用絕對的單位ex. vh */
+}
+
+.content{
+    /* background-color: blanchedalmond; */
+    width: 957px;
+    height: 570px;
+    margin: auto;
+    
+}
+.img{
+    /* background-color: brown; */
+    width: 33%;
+    height: 100%;
+    float: left;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.img:hover {
+    opacity: 0.7;
+    scale: 0.95;
+    border-radius: 10px;
+    transform: rotate(3deg);
+}
+
+.img-1{
+    background-image: url(../img/LINE_ALBUM_上課使用_231221_12.jpg);
+}
+
+.img-2{
+    width: calc(34% - 10px*2);
+    margin-left: 10px;
+    margin-right: 10px;
+    background-image: url(../img/LINE_ALBUM_上課使用_231221_1.jpg);
+}
+
+.img-3{
+    background-image: url(../img/LINE_ALBUM_上課使用_231221_9.jpg);
+    background-position: left;
+}

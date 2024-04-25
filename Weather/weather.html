@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中央氣象局</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100%;
+            margin: 0;
+            background-image: url(./img/Background.png);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            font-family: "Segoe UI", "微軟正黑體", sans-serif;
+        }
+
+        .title {
+            width: 90%;
+            height: 40px;
+            margin: auto;
+            margin-top: 10px;
+            font-size: 36px;
+            line-height: 40px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: navy;
+            text-shadow: 3px 2px 3px rgba(56, 67, 10, 0.7)
+        }
+
+        .navbar {
+            width: 90%;
+            height: 40px;
+            /* background-color: green; */
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+
+        }
+
+        @media (max-width:600px) {
+            .navbar{
+                display: flex;
+                flex-direction: column;
+                height: 250px;
+                width: 150px;
+                /* background-color: rgb(47, 129, 200); */
+                position: absolute;
+            }
+        }
+
+        .nav-btn {
+            width: 150px;
+            height: 40px;
+            font-size: 18px;
+            background-color: rgba(173, 203, 233, 0.784);
+            cursor: pointer;
+        }
+
+        @media (max-width:600px) {
+            .nav-btn{
+                margin-bottom: 5px;
+                width: 60px;
+                transform: translateX(5%);
+                z-index: 1;
+            }
+        }
+
+        .nav-btn:hover {
+            background-color: burlywood;
+            font-weight: bold;
+        }
+
+        .card-region {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background: linear-gradient(rgb(179, 189, 210), rgb(44, 121, 172));
+            opacity: 80%;
+            border: 1px dashed navajowhite;
+            width: 250px;
+            height: 400px;
+            border-radius: 5%;
+            margin-right: 50px;
+            margin-bottom: 50px;
+            text-align: center;
+            padding: 10px;
+            font-size: 18px;
+        }
+
+        @media (max-width:600px) {
+            .card{
+                transform: translateX(13%);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="title">全臺天氣預報</div>
+    <div class="navbar">
+        <button class="nav-btn taiwan">全國</button>
+        <button class="nav-btn north">北部</button>
+        <button class="nav-btn middle">中部</button>
+        <button class="nav-btn south">南部</button>
+        <button class="nav-btn east">西部</button>
+        <button class="nav-btn island">外島</button>
+    </div>
+    <div class="card-region">
+        <!-- <div class="card">A</div>
+        <div class="card">B</div>
+        <div class="card">C</div>
+        <div class="card">D</div>
+        <div class="card">E</div> -->
+
+    </div>
+
+    <script>
+        let btnAll = document.querySelectorAll('.nav-btn');
+        let cities = [
+            //全部的都市
+            ['基隆市', '新北市', '臺北市', '桃園市', '新竹市', '新竹縣', '苗栗縣', '臺中市', '南投縣', '彰化縣', '雲林縣', '嘉義市', '嘉義縣', '臺南市', '高雄市', '屏東縣', '宜蘭縣', '花蓮縣', '臺東縣', '澎湖縣', '金門縣', '連江縣'],
+            //北部
+            ['基隆市', '新北市', '臺北市', '桃園市', '新竹市', '新竹縣', '苗栗縣'],
+            //中部
+            ['臺中市', '南投縣', '彰化縣', '雲林縣', '嘉義市', '嘉義縣'],
+            //南部
+            ['臺南市', '高雄市', '屏東縣'],
+            //東部
+            ['宜蘭縣', '花蓮縣', '臺東縣'],
+            //外島
+            ['澎湖縣', '金門縣', '連江縣'],
+        ];
+
+        //現在的城市
+        let nowCities = cities[0];//全部城市
+        //整理過的資料
+        let orgData = {};
+
+        let url = 'https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWA-352206F9-EB6E-4D0F-BE78-18FD9918D621';
+
+        //主程式
+        fetchData();
+
+        btnAll.forEach((btn, index) => {
+            btn.addEventListener('click', () => {
+                nowCities = cities[index];
+                fetchData();
+            })
+        })
+
+        //不用分號！->取得資料
+        function fetchData() {
+            fetch(url)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (datas) {
+                    console.log(datas);
+                    //程式要寫在這裡，若寫在外面，會執行外面的程式
+                    organizationData(datas);
+
+
+                    arrangeCities();
+                });
+        }
+        //處理資料：整理資料/放置資料
+
+        function organizationData(data) {
+            // console.log(data.records.location);
+            let locationAll = data.records.location
+            console.log(locationAll);
+            locationAll.forEach(location => {
+                //取出城市名稱
+                let locationName = location.locationName;
+                //取出其他天氣資訊 (WeatherElements->取時間)
+                let loc_WE_t0 = location.weatherElement[0].time[0];
+                //天氣狀況：晴時多雲
+                let wxCondition = loc_WE_t0.parameter.parameterName;
+                let startTime = loc_WE_t0.startTime;
+                let endTime = loc_WE_t0.endTime;
+                let minTemper = location.weatherElement[2].time[0].parameter.parameterName;
+                let maxTemper = location.weatherElement[4].time[0].parameter.parameterName;
+                let pop = location.weatherElement[1].time[0].parameter.parameterName;
+                let ci = location.weatherElement[3].time[0].parameter.parameterName;
+
+                //平常不太會想到使用的方式
+                orgData[locationName] = {
+                    //從上面取值下來使用
+                    wxCondition: wxCondition, startTime: startTime, endTime: endTime, minTemper: minTemper, maxTemper: maxTemper, pop: pop, ci: ci,
+                }
+            }); console.log(orgData);
+        } function arrangeCities() {
+            let cardRegion = document.querySelector('.card-region'); cardRegion.innerHTML = ''; nowCities.forEach((city, index) => {
+                let cityData = orgData[city];
+                //[裡面是變數]從中取出資料
+                cardRegion.innerHTML += `
+                <div class="card">
+                    <div class="city" style="font-size:30px;font-weight:bold;">${city} </div><p>
+                    <span class="temper">${cityData.minTemper}°C ~ ${cityData.maxTemper}°C </span><br>
+                    <span class="time">${cityData.startTime}</span><br>
+                    <span class="time">至<br>${cityData.endTime}</span><p>
+                    <img style="height:20px;weight:20px;" src='./img/umbrella-solid.svg'alt="">
+                    <span class="pop">${cityData.pop}%</span><br>
+                    <span class="ci">${cityData.ci}</span><br>
+                    <div class="wxCondition" style="font-weight:bold;">${cityData.wxCondition}</div><p>
+                    <img style="height:80px;weight:80px;"src='./img/${cityData.wxCondition}.svg'alt=""><br>
+                </div>
+                `;
+            })
+        }
+    </script>
+</body>
+
+</html>

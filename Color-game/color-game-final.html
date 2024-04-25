@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game</title>
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+
+        body{
+            margin: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: aliceblue;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+        }
+
+        .game-title{
+            font-size: 24px;
+        }
+
+        .logo-pic{
+            height: 500px;
+            width: 500px;
+            opacity: 70%;
+        }
+
+        button{
+            height: 50px;
+            width: 80px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover{
+            font-weight: bold;
+            background-color: darkkhaki;
+        }
+
+        #demo-counter{
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            background-color: cadetblue;
+            line-height: 40px;
+            margin: auto;
+            margin-bottom: 10px;
+        }
+
+        /* 開關只要有一個就好 */
+        .hidden {
+            display: none;
+        }
+
+        .box-big {
+            width: 520px;
+            height: 520px;
+            background-color: #d3d3d3;
+            margin: auto;
+            padding: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            border-radius: 10px;
+        }
+
+        .box {
+            width: 50%;
+            height: 50%;
+            background-color: aqua;
+            border: 5px solid #d3d3d3;
+            border-radius: 10px;
+        }
+
+        .answer {
+            opacity: 0.5;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="homepage">
+        <div class="logo">
+            <div class="game-title">Color Game</div>
+            <img class="logo-pic" src="./img/LINE_ALBUM_上課使用_231221_5.jpg" alt="">
+            <p>找出顏色不一樣的色塊</p>
+            <p>Click on the tile that has a different color</p>
+        </div>
+        <button class="start-game">遊戲開始</button>
+        <button class="continue-game">遊戲繼續</button>
+    </div>
+    <div class="play-game">
+        <p id="demo-counter"></p>
+        <div class="box-big"></div>
+        <button class="wait-game">暫停</button>
+        <button class="stop-game">結束遊戲</button>
+    </div>
+
+    <script>
+        let homePage = document.querySelector('.homepage');
+        let playGame = document.querySelector('.play-game');
+        let startGame = document.querySelector('.start-game');
+        let waitGame = document.querySelector('.wait-game');
+        let continueGame = document.querySelector('.continue-game');
+        let stopGame = document.querySelector('.stop-game');
+
+        //計時器
+        let demoCounter = document.querySelector('#demo-counter');
+        let showCounter = document.querySelector('#show-counter');
+        let stopCounter = document.querySelector('#stop-counter');
+        //空字串，要放下面的東西
+        let counterInterval = '';
+        const totalTime =15;
+        let counter = '';
+
+        playGame.classList.add('hidden');
+        continueGame.classList.add('hidden');
+        //執行動作建議寫成function 以利後續使用
+        myStartGame();
+        myWaitGame();
+        myContinueGame();
+        myStopGame();
+
+        function myStartGame() {
+            startGame.addEventListener('click', () => {
+                //按開始後會先清空時間
+                counter = totalTime;
+                demoCounter.innerHTML = counter;
+                homePage.classList.add('hidden');
+                playGame.classList.remove('hidden');
+                //開始計時
+                counterInterval = setInterval(counterTimer, 1000);
+                game();
+            })
+        }
+
+        function myWaitGame() {
+            waitGame.addEventListener('click', () => {
+                homePage.classList.remove('hidden');
+                playGame.classList.add('hidden');
+                continueGame.classList.remove('hidden');
+                startGame.classList.add('hidden');
+                //停止計時
+                counterStop();
+            })
+        }
+
+        function myContinueGame() {
+            continueGame.addEventListener('click', () => {
+                homePage.classList.add('hidden');
+                playGame.classList.remove('hidden');
+                //開始計時
+                counterInterval = setInterval(counterTimer, 1000);
+            })
+        }
+
+        function myStopGame() {
+            stopGame.addEventListener('click', () => {
+                homePage.classList.remove('hidden');
+                playGame.classList.add('hidden');
+                continueGame.classList.add('hidden');
+                startGame.classList.remove('hidden');
+                
+                //停止計時
+                counterStop();
+            })
+        }
+
+        //計時器開始
+        function counterTimer() {
+            // demo.innerHTML = counter;
+            // counter++;
+
+            if (counter >= 0) {
+                demoCounter.innerHTML = counter--;
+            } else{
+                alert('時間到！！！');
+                counterStop();
+                homePage.classList.remove('hidden');
+                playGame.classList.add('hidden');
+                continueGame.classList.add('hidden');
+
+                //會造成程式一直出現alert
+            //     alert('時間到！！！');
+            //     myStopGame();
+            // }
+            //--為倒數計時
+            }
+        }
+
+        //停止計時，
+        function counterStop() {
+            clearInterval(counterInterval);
+        }
+
+        function game(){
+
+        }
+
+        let level = 2;
+        let size = 100 / level;
+        let boxBig = document.querySelector('.box-big');
+        let count = 0;
+
+        game();
+
+
+        function game() {
+            // 1. 清空
+            boxBig.innerHTML = '';
+
+            // 2. 產生小box 還有顏色
+            // ‵‵ => 樣板符號 => 樣板語言
+            let color =
+                `rgb(${Math.floor(Math.random() * 255) + 1}, ${Math.floor(Math.random() * 255) + 1} ,${Math.floor(Math.random() * 255) + 1})`;
+            // **2 二次方
+            // i ++ => i = i + 1
+
+            for (let i = 0; i < level ** 2; i++) {
+                boxBig.innerHTML +=
+                    `<div class="box" style="width:${size}%; height:${size}%; background-color:${color};">`;
+            }
+
+            // 3. 產生解答方塊
+            //為了配合 css 使用 nth-of-type()
+            let randomAnswer = Math.floor(Math.random() * level ** 2) + 1; 
+            let answerBox = document.querySelector(`.box-big .box:nth-of-type(${randomAnswer})`);
+            answerBox.classList.add("answer");
+
+            // 4.為遊戲增加難度 => opcity 是變動的
+            answerBox.style.opacity = `${0.5 + level*0.005}`;
+
+            // 5. 互動 => 綁監聽事件
+            let answerBtn = document.querySelector('.answer');
+            answerBtn.addEventListener('click', function () {
+                //當level答對次數=level，即可進入更多格挑戰
+                count++;
+                if(count === level){
+                level++;
+                size = 100 / level;
+                count = 0;
+            }
+                game();
+            });
+
+        }
+    </script>
+</body>
+
+</html>

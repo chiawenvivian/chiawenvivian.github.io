@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>剪刀石頭布遊戲</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0%;
+            height: 100vh;
+            width: 100%;
+            background-color: aliceblue;
+            display: flex;
+            font-size: 18px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .container {
+            width: 700px;
+            height: 700px;
+            margin: auto;
+            background-color: teal;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .player {
+            margin: auto;
+            width: 80%;
+            height: 200px;
+            background-color: gainsboro;
+            margin-bottom: 20px;
+        }
+
+        .my-name {
+            margin: auto;
+            width: 200px;
+            height: 40px;
+            /* background-color: aqua; */
+            text-align: center;
+        }
+
+        .option {
+            margin: auto;
+            width: 450px;
+            height: 150px;
+            background-color: bisque;
+            text-align: center;
+            display: flex;
+            border: 1px dashed navy;
+        }
+
+        .paper {
+            background-image: url(./img/paper-535-5351099_rock-paper-scissors-rock-paper-scissors-icons-png.png);
+            background-size: cover;
+        }
+
+        .scissors {
+            background-image: url(./img/scissors-images.png);
+            background-size: cover;
+        }
+
+        .stone {
+            background-image: url(./img/stone-rock-paper-scissors-circle-11562962494dqcjusyikw.png);
+            background-size: cover;
+        }
+
+        button {
+            margin: auto;
+            width: 120px;
+            height: 120px;
+            margin-right: 20px;
+            cursor: pointer;
+        }
+
+        .PC {
+            margin: auto;
+            width: 80%;
+            height: 200px;
+            background-color: gainsboro;
+            margin-bottom: 20px;
+        }
+
+        .pc-name {
+            margin: auto;
+            width: 200px;
+            height: 40px;
+            /* background-color: aqua; */
+            text-align: center;
+        }
+
+        .pc-option {
+            margin: auto;
+            width: 150px;
+            height: 150px;
+            background-color: burlywood;
+            border: 1px dashed navy;
+            font-size: 24px;
+            line-height: 150px;
+        }
+
+        .final-result {
+            margin: auto;
+            width: 80%;
+            height: 100px;
+            background-color: gainsboro;
+            font-size: 24px;
+            line-height: 100px;
+        }
+
+        .restart{
+            width: 80px;
+            height: 40px;
+            cursor: pointer;
+            margin: auto;
+            background-color: gainsboro;
+        }
+
+        .restart:hover{
+            background-color: rgb(209, 169, 130);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="player">
+            <div class="my-name">玩家</div>
+            <div class="option">
+                <button class="paper"></button>
+                <button class="scissors"></button>
+                <button class="stone"></button>
+            </div>
+        </div>
+        <div class="PC">
+            <div class="pc-name">PC</div>
+            <div class="pc-option"></div>
+        </div>
+        <div class="final-result">結果：
+            <span class="result"></span>
+        </div>
+        <button class="restart">重新開始</button>
+    </div>
+
+    <script>
+        let playerOption = document.querySelector('.option');
+        let pcOption = document.querySelector('.pc-option');
+
+        let paperBtn = document.querySelector('.paper');
+        let scissorsBtn = document.querySelector('.scissors');
+        let stoneBtn = document.querySelector('.stone');
+
+        let result = document.querySelector('.result');
+        let restartBtn = document.querySelector('.restart');
+
+        function getPcOption(){
+            let pcOption = ['paper','scissors', 'stone' ];
+            let pcChoice = pcOption[Math.floor(Math.random() *3)];
+            return pcChoice; 
+        };
+
+        paperBtn.addEventListener('click', function(){
+            getPcOption();
+            pcOption.innerHTML = getPcOption();
+
+            if (pcOption.innerHTML === 'paper' ){
+                result.innerHTML = ('平手喔！');
+            } else if (pcOption.innerHTML === 'stone'){
+                result.innerHTML = ('你贏囉！');
+            } else {
+                result.innerHTML = ('你輸了！！！');
+            }
+        });
+       
+        scissorsBtn.addEventListener('click', function(){
+            getPcOption();
+            pcOption.innerHTML = getPcOption();
+
+            if (pcOption.innerHTML === 'scissors' ){
+                result.innerHTML = ('平手喔！');
+            } else if (pcOption.innerHTML === 'paper'){
+                result.innerHTML = ('你贏囉！');
+            } else {
+                result.innerHTML = ('你輸了！！！');
+            }
+        });
+
+        stoneBtn.addEventListener('click', function(){
+            getPcOption();
+            pcOption.innerHTML = getPcOption();
+
+            if (pcOption.innerHTML === 'stone' ){
+                result.innerHTML = ('平手喔！');
+            } else if (pcOption.innerHTML === 'scissors'){
+                result.innerHTML = ('你贏囉！');
+            } else {
+                result.innerHTML = ('你輸了！！！');
+            }
+        });
+        
+        restartBtn.addEventListener('click', function(){
+            result.innerHTML = '';
+            pcOption.innerHTML = '';
+        });
+
+    </script>
+</body>
+
+</html>

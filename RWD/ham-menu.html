@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ham-menu</title>
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+
+        .ham-menu-btn{
+            background-color: teal;
+            width: 100px;
+            height: 100px;
+            /* label 行內層級 無法呈現大小 必須改成 block 層級 */
+            display: block;
+            position: relative;
+        }
+
+        /* 空1格 後代 => 後代選擇器 */
+        .ham-menu-btn .line{
+            background-color: black;
+            width: 80%;
+            height: 10px;
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: 1s;
+        }
+
+        .ham-menu-btn #line-1 {
+            top: 25%;
+        }
+
+        .ham-menu-btn #line-2 {
+            top: 50%;
+        }
+
+        .ham-menu-btn #line-3 {
+            top: 75%;
+        }
+
+        #ham-menu-switch:checked+.ham-menu-btn #line-1{
+            top:50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+
+        #ham-menu-switch:checked+.ham-menu-btn #line-2{
+            display: none;
+        }
+
+        #ham-menu-switch:checked+.ham-menu-btn #line-3{
+            top: 50%;
+            transform:  translate(-50%, -50%) rotate(-45deg);
+        }
+
+    </style>
+</head>
+<body>
+    <!-- 漢堡menu的按鈕紀錄器 -->
+    <input type="checkbox" id="ham-menu-switch" hidden>
+    <!-- 漢堡menu的按鈕本體 -->
+    <label for="ham-menu-switch" class="ham-menu-btn">
+        <div id="line-1" class="line"></div>
+        <div id="line-2" class="line"></div>
+        <div id="line-3" class="line"></div>
+    </label>
+    
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background-color: aliceblue;
+            padding: 50px;
+            width: 100%;
+            height: 100vh;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        button:hover {
+            font-weight: bold;
+            background-color: lightgray;
+        }
+
+        .blog {
+            width: 700px;
+            height: 200px;
+        }
+
+        .add {
+            width: 100%;
+            height: 150px;
+            background-color: cornsilk;
+            border: 1px dashed navy;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .reply {
+            width: 100%;
+            background-color: lightcyan;
+        }
+        .message{
+            border-bottom: 1px dashed navy;
+        }
+    </style>
+</head>
+
+<body>
+    <textarea class="add-text" name="" id="" cols="30" rows="10" placeholder="文章內容"></textarea>
+    <p></p>
+    <button class="submit" type="button">新增文章</button>
+    <p></p>
+    <div class="blog">
+    </div>
+    <script>
+        const addText = document.querySelector('.add-text');
+        const submit = document.querySelector('.submit');
+        const blog = document.querySelector('.blog');
+        let arr = [];
+
+        //新增文章
+        submit.addEventListener('click', () => {
+            const word = addText.value;
+            let id = 0;
+            // 找尋array的最後一個ID 
+            if (arr.length !== 0) {
+                id = arr[arr.length - 1].id;
+            }
+            if (word != '') {
+                const addArr = {
+                    id: id + 1,
+                    check: false,
+                    text: word,
+                    comment: [],
+                }
+                arr.push(addArr);
+            }
+            addText.value = '';
+            showText(arr);
+        })
+
+        //先抓到文章裡特定的值，才能依據此值做回覆
+        //加入回覆
+        function addReply(id) {
+            arr.map((item) => {
+                if (item.id == id) {
+                    const content = prompt('請輸入留言');
+                    if (content != ' ' || content == null) {
+                        item.comment.push(content);
+                    }
+                }
+            });
+            showText(arr);
+        }
+
+        //輸出
+        function showText(addArr) {
+            //先將畫面清空
+            blog.innerHTML = ``;
+            let html = ``;
+            addArr.forEach((item) => {
+                //先印文章
+                html += `<p></p><div class="add">${item.text}</div><p></p>
+                <button class="" type="button" onclick="addReply(${item.id})">留言回覆</button><p></p>`;
+                //印出回覆        
+                if (item.comment.length !== 0) {
+                    item.comment.forEach((message) => {
+                        html += `<div class="reply"><div class="message">${message}</div></div>`
+                    })
+                } else {
+                    //若沒有回覆則長出空的div
+                    html += `<div class="reply"></div>`
+                }
+                //把長出來的東西丟進去innerHTML
+                blog.innerHTML = html;
+            })
+        }
+
+
+    </script>
+</body>
+
+</html>
